@@ -160,3 +160,140 @@ namespace calculator
         }
     }
 }
+
+
+
+
+
+
+CREATE DATABASE training;
+
+CREATE TABLE parents (
+	parentid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	PRIMARY KEY (parentid)
+);
+
+CREATE TABLE children {
+	childid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	parentid MEDIUMINT,
+	PRIMARY KEY (childid),
+	FOREIGN KEY (parentid) REFERENCES parents(parentid)
+);
+
+INSERT INTO parents (name) VALUES
+	('John'),
+	('Mark'), 
+	('Sarah'), 
+	('Daniel'),
+	('Jamie');
+
+INSERT INTO children (name, parentid) VALUES
+	('Mary', (SELECT parentid FROM parents WHERE name = 'John' LIMIT 1) ),
+	('Jake', (SELECT parentid FROM parents WHERE name = 'Mark' LIMIT 1) ),
+	('Gary', (SELECT parentid FROM parents WHERE name = 'Sarah' LIMIT 1) ),
+	('Tim', (SELECT parentid FROM parents WHERE name = 'Daniel' LIMIT 1) ),
+	('Debbie', (SELECT parentid FROM parents WHERE name = 'Jamie' LIMIT 1) );
+
+---------------
+
+CREATE DATABASE nfl;
+
+CREATE TABLE teams (
+	teamid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	PRIMARY KEY (teamid)
+);
+
+CREATE TABLE players (
+	playerid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	teamid MEDIUMINT,
+	PRIMARY KEY (playerid),
+	FOREIGN KEY (teamid) REFERENCES teams(teamid)
+	ON DELETE CASCADE
+);
+
+INSERT INTO teams (name) VALUES
+	('Cowboys'),
+	('Patriots'), 
+	('Eagles');
+
+INSERT INTO players (name, teamid) VALUES
+	('Dez Bryant', (SELECT teamid FROM teams WHERE name = 'Cowboys' LIMIT 1) ),
+	('Dak Prescott', (SELECT parentid FROM parent WHERE name = 'Cowboys' LIMIT 1) ),
+	('Ezekiel Elliott', (SELECT parentid FROM parent WHERE name = 'Cowboys' LIMIT 1) ),
+	('Allen Hurns', (SELECT parentid FROM parent WHERE name = 'Cowboys' LIMIT 1) ),
+	('Jason Witten', (SELECT parentid FROM parent WHERE name = 'Cowboys' LIMIT 1) ),
+	('Tom Brady', (SELECT teamid FROM teams WHERE name = 'Patriots' LIMIT 1) ),
+	('Rob Gronkowski', (SELECT parentid FROM parent WHERE name = 'Patriots' LIMIT 1) ),
+	('Danny Amendola', (SELECT parentid FROM parent WHERE name = 'Patriots' LIMIT 1) ),
+	('Julian Edelman', (SELECT parentid FROM parent WHERE name = 'Patriots' LIMIT 1) ),
+	('Dion Lewis', (SELECT parentid FROM parent WHERE name = 'Patriots' LIMIT 1) ),
+	('Carson Wentz', (SELECT teamid FROM teams WHERE name = 'Eagles' LIMIT 1) ),
+	('Nick Foles', (SELECT parentid FROM parent WHERE name = 'Eagles' LIMIT 1) ),
+	('Michael Bennett', (SELECT parentid FROM parent WHERE name = 'Eagles' LIMIT 1) ),
+	('Chris Long', (SELECT parentid FROM parent WHERE name = 'Eagles' LIMIT 1) ),
+	('Zach Ertz', (SELECT parentid FROM parent WHERE name = 'Eagles' LIMIT 1) );
+
+UPDATE players SET name = 'John Smith';
+
+DELETE FROM team WHERE name = 'Cowboys';
+
+---------------
+
+CREATE DATABASE nba;
+
+CREATE TABLE cities (
+	cityid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	PRIMARY KEY (cityid)
+);
+
+CREATE TABLE teams (
+	teamid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	cityid MEDIUMINT,
+	PRIMARY KEY (teamid),
+	FOREIGN KEY (cityid) REFERENCES cities(cityid)
+	ON DELETE CASCADE
+);
+
+CREATE TABLE players (
+	playerid MEDIUMINT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(30) NOT NULL,
+	teamid MEDIUMINT,
+	PRIMARY KEY (playerid),
+	FOREIGN KEY (teamid) REFERENCES teams(teamid)
+	ON DELETE CASCADE
+);
+
+
+INSERT INTO cities (name) VALUES 
+	('LA'), ('Memphis'), ('Miami'), ('Milwaukee'), ('New Orleans'),
+	('New York'), ('OKC'), ('Orlando'), ('Philadelphia'), ('Portland');
+
+INSERT INTO teams (name, cityid) VALUES
+	('Thunder', (SELECT cityid FROM cities WHERE name = 'OKC' LIMIT 1) ), 
+	('Lakers', (SELECT cityid FROM cities WHERE name = 'LA' LIMIT 1) ),
+	('Heat', (SELECT cityid FROM cities WHERE name = 'Miami' LIMIT 1) );
+
+INSERT INTO players (name, teamid) VALUES
+	('Russell Westbrook', (SELECT teamid FROM teams WHERE name = 'Thunder' LIMIT 1) ),
+	('Carmelo Anthony', (SELECT teamid FROM teams WHERE name = 'Thunder' LIMIT 1) ),
+	('Paul George', (SELECT teamid FROM teams WHERE name = 'Thunder' LIMIT 1) ),
+	('Steven Adams', (SELECT teamid FROM teams WHERE name = 'Thunder' LIMIT 1) ),
+	('Andre Roberson', (SELECT teamid FROM teams WHERE name = 'Thunder' LIMIT 1) ),
+	('Lonzo Ball', (SELECT teamid FROM teams WHERE name = 'Lakers' LIMIT 1) ),
+	('Isaiah Thomas', (SELECT teamid FROM teams WHERE name = 'Lakers' LIMIT 1) ),
+	('Brandon Ingram', (SELECT teamid FROM teams WHERE name = 'Lakers' LIMIT 1) ),
+	('Kyle Kuzma', (SELECT teamid FROM teams WHERE name = 'Lakers' LIMIT 1) ),
+	('Julius Randle', (SELECT teamid FROM teams WHERE name = 'Lakers' LIMIT 1) ),
+	('Dwyane Wade', (SELECT teamid FROM teams WHERE name = 'Heat' LIMIT 1) ),
+	('Hassan Whiteside', (SELECT teamid FROM teams WHERE name = 'Heat' LIMIT 1) ),
+	('Goran Dragic', (SELECT teamid FROM teams WHERE name = 'Heat' LIMIT 1) ),
+	('Tyler Johnson', (SELECT teamid FROM teams WHERE name = 'Heat' LIMIT 1) ),
+	('James Johnson', (SELECT teamid FROM teams WHERE name = 'Heat' LIMIT 1) );
+
+DELETE FROM teams WHERE name = 'Lakers'; 
